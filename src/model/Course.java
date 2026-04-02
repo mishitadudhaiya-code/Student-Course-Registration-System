@@ -34,4 +34,8 @@ public class Course{
     public void displayCourse() {
         System.out.println(courseCode + " - " + title + " (" + credits + " credits) | Prof: " + professor);
     }
+
+    public int getCredits() {
+    return credits;
+    }
 }
