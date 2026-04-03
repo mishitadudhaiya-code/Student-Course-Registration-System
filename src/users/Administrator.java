@@ -27,7 +27,8 @@ public class Administrator extends User {
             System.out.println("3. Delete Course");
             System.out.println("4. View Complaints");
             System.out.println("5. Resolve Complaint");
-            System.out.println("6. Exit");
+            System.out.println("6. Assign Grade");
+            System.out.println("7. Exit");
 
             int choice = sc.nextInt();
 
@@ -36,32 +37,32 @@ public class Administrator extends User {
             }
 
             else if (choice == 2) {
+                System.out.print("Enter course code: ");
+                String code = sc.next();
 
-            sc.nextLine(); // 🔥 VERY IMPORTANT (clears buffer)
+                System.out.print("Enter title: ");
+                String title = sc.next();
 
-            System.out.print("Enter course code: ");
-            String code = sc.nextLine();
+                System.out.print("Enter credits: ");
+                int credits = sc.nextInt();
 
-            System.out.print("Enter title: ");
-            String title = sc.nextLine();
+                System.out.print("Enter professor: ");
+                String prof = sc.next();
 
-            System.out.print("Enter credits (2 or 4): ");
-            int credits = sc.nextInt();
+                System.out.print("Enter max students: ");
+                int max = sc.nextInt();
 
-            sc.nextLine(); // 🔥 clear buffer again
+                System.out.print("Enter day (Monday, Tuesday...): ");
+                String day = sc.next();
 
-            System.out.print("Enter professor name: ");
-            String prof = sc.nextLine();
+                System.out.print("Enter time (e.g. 10AM): ");
+                String time = sc.next();
 
-            System.out.print("Enter max students: ");
-            int max = sc.nextInt();
+                Course c = new Course(code, title, credits, prof, max, day, time);
 
-            Course c = new Course(code, title, credits, prof, max);
-            cs.addCourse(c);
-
-            System.out.println("Course added successfully!");
-        }
-
+                cs.addCourse(c);
+                System.out.println("Course added successfully!");
+            }
             else if (choice == 3) {
                 System.out.print("Enter course code to delete: ");
                 String code = sc.next();
@@ -91,6 +92,32 @@ public class Administrator extends User {
                 }
 
                 System.out.println("Complaint resolved!");
+            }
+            else if (choice == 6) {
+                System.out.print("Enter course code: ");
+                String code = sc.next();
+
+                Course c = cs.getCourseByCode(code);
+
+                if (c != null) {
+
+                    System.out.print("Enter student ID: ");
+                    String sid = sc.next();
+
+                    System.out.print("Enter grade (A/B/C/D/F): ");
+                    String grade = sc.next();
+
+                    boolean success = c.assignGrade(sid, grade);
+
+                    if (success) {
+                        System.out.println("Grade assigned!");
+                    } else {
+                        System.out.println("Student not found in this course!");
+                    }
+
+                } else {
+                    System.out.println("Course not found");
+                }
             }
 
             else {

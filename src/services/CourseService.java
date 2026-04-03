@@ -15,9 +15,12 @@ public class CourseService {
         courses = new ArrayList<>();
 
         // Dummy data (only created once now)
-        courses.add(new Course("CS101", "DSA", 4, "Prof A", 3));
-        courses.add(new Course("CS102", "OOP", 4, "Prof B", 3));
-        courses.add(new Course("CS103", "DBMS", 2, "Prof C", 3));
+        courses.add(new Course("CS101", "DSA", 4
+        , "Prof A", 3, "Monday", "10AM"));
+        courses.add(new Course("CS102", "OOP", 4
+        , "Prof B", 3, "Tuesday", "2PM"));
+        courses.add(new Course("CS103", "DBMS", 2, "Prof C"
+        , 3, "Wednesday", "11AM"));
     }
 
     // GLOBAL ACCESS METHOD
@@ -75,5 +78,8 @@ public boolean deleteCourse(String code) {
         return true;
     }
     return false;
-}
+    }
+        public ArrayList<Course> getAllCourses() {
+            return courses;
+        }
 }

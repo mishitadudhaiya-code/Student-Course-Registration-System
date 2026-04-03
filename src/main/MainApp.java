@@ -11,23 +11,38 @@ public class MainApp {
         Scanner sc = new Scanner(System.in);
         AuthService auth = new AuthService();
 
-        System.out.println("Welcome to Course System");
+        while (true) {
 
-        System.out.print("Enter role (student/professor/admin): ");
-        String role = sc.nextLine();
+            System.out.println("\nWelcome to Course System");
+            System.out.println("1. Login");
+            System.out.println("2. Exit");
 
-        System.out.print("Enter email: ");
-        String email = sc.nextLine();
+            int choice = sc.nextInt();
+            sc.nextLine(); // clear buffer
 
-        System.out.print("Enter password: ");
-        String password = sc.nextLine();
+            if (choice == 1) {
 
-        User user = auth.login(role, email, password);
+                System.out.print("Enter role (student/professor/admin): ");
+                String role = sc.nextLine();
 
-        if (user != null) {
-            user.showMenu();
-        } else {
-            System.out.println("Invalid login");
+                System.out.print("Enter email: ");
+                String email = sc.nextLine();
+
+                System.out.print("Enter password: ");
+                String password = sc.nextLine();
+
+                User user = auth.login(role, email, password);
+
+                if (user != null) {
+                    user.showMenu(); // after exit → comes back here
+                } else {
+                    System.out.println("Invalid login");
+                }
+
+            } else {
+                System.out.println("Exiting system...");
+                break;
+            }
         }
 
         sc.close();
