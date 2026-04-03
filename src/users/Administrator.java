@@ -1,8 +1,11 @@
 package users;
 
 import java.util.Scanner;
+import model.Complaint;
 import model.Course;
+import services.ComplaintService;
 import services.CourseService;
+
 
 public class Administrator extends User {
 
@@ -14,13 +17,17 @@ public class Administrator extends User {
     public void showMenu() {
         Scanner sc = new Scanner(System.in);
         CourseService cs = CourseService.getInstance();
+        
 
         while (true) {
+            ComplaintService cs2 = ComplaintService.getInstance();
             System.out.println("\n--- ADMIN MENU ---");
             System.out.println("1. View All Courses");
             System.out.println("2. Add Course");
             System.out.println("3. Delete Course");
-            System.out.println("4. Exit");
+            System.out.println("4. View Complaints");
+            System.out.println("5. Resolve Complaint");
+            System.out.println("6. Exit");
 
             int choice = sc.nextInt();
 
@@ -66,6 +73,24 @@ public class Administrator extends User {
                 } else {
                     System.out.println("Course not found!");
                 }
+            }
+            else if (choice == 4) {
+                for (Complaint c : cs2.getAllComplaints()) {
+                c.display();
+                }
+            }
+            else if (choice == 5) {
+                sc.nextLine();
+                System.out.print("Enter student email: ");
+                String email = sc.nextLine();
+
+                for (Complaint c : cs2.getAllComplaints()) {
+                    if (c.getStudentEmail().equals(email)) {
+                        c.setStatus("Resolved");
+                    }
+                }
+
+                System.out.println("Complaint resolved!");
             }
 
             else {

@@ -2,7 +2,9 @@ package users;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import model.Complaint;
 import model.Course;
+import services.ComplaintService;
 import services.CourseService;
 
 public class Student extends User {
@@ -40,14 +42,17 @@ public class Student extends User {
         CourseService cs = CourseService.getInstance();
 
         while (true) {
+            ComplaintService cs2 = ComplaintService.getInstance();
             System.out.println("\n1. View All Courses");
             System.out.println("2. Register Course");
             System.out.println("3. View Registered Courses");
             System.out.println("4. Drop Course");
-            System.out.println("5. Exit");
+            System.out.println("5. Submit Complaint");
+            System.out.println("6. View My Complaints");
+            System.out.println("7. Exit");
 
             int choice = sc.nextInt();
-
+            
             if (choice == 1) {
                 cs.viewCourses();
             }
@@ -100,6 +105,24 @@ public class Student extends User {
                     System.out.println("Course dropped successfully!");
                 } else {
                     System.out.println("You are not enrolled in this course.");
+                }
+            }
+            else if (choice == 5) {
+                sc.nextLine(); // clear buffer
+                System.out.print("Enter complaint: ");
+                String desc = sc.nextLine();
+
+                Complaint c = new Complaint(email, desc);
+                cs2.addComplaint(c);
+
+                System.out.println("Complaint submitted!");
+            }
+
+            else if (choice == 6) {
+                for (Complaint c : cs2.getAllComplaints()) {
+                    if (c.getStudentEmail().equals(email)) {
+                        c.display();
+                    }
                 }
             }
 
