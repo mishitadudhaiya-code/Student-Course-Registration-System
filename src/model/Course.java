@@ -38,4 +38,15 @@ public class Course{
     public int getCredits() {
     return credits;
     }
+    public String getProfessor() {
+    return professor;
+    }
+
+    public void setCredits(int credits) {
+    this.credits = credits;
+    }
+
+    public ArrayList<String> getStudents() {
+    return students;
+    }
 }

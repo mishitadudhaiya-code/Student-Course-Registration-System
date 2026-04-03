@@ -35,7 +35,9 @@ public class Student extends User {
     @Override
     public void showMenu() {
         Scanner sc = new Scanner(System.in);
-        CourseService cs = new CourseService();
+
+        // ✅ CORRECT SINGLETON USAGE
+        CourseService cs = CourseService.getInstance();
 
         while (true) {
             System.out.println("\n1. View All Courses");
@@ -58,7 +60,6 @@ public class Student extends User {
 
                 if (c != null) {
 
-                    // CREDIT LIMIT CHECK
                     if (calculateTotalCredits() + c.getCredits() > 20) {
                         System.out.println("Credit limit exceeded (Max 20)");
                         continue;

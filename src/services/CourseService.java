@@ -5,13 +5,27 @@ import java.util.ArrayList;
 
 public class CourseService {
 
-    private ArrayList<Course> courses = new ArrayList<>();
+    // SINGLE INSTANCE
+    private static CourseService instance;
 
-    public CourseService() {
-        // Dummy data
-        courses.add(new Course("AI101", "DSA", 4, "Prof A", 3));
-        courses.add(new Course("AI102", "OOP", 4, "Prof B", 3));
-        courses.add(new Course("AI103", "DBMS", 2, "Prof C", 3));
+    private ArrayList<Course> courses;
+
+    // PRIVATE CONSTRUCTOR
+    private CourseService() {
+        courses = new ArrayList<>();
+
+        // Dummy data (only created once now)
+        courses.add(new Course("CS101", "DSA", 4, "Prof A", 3));
+        courses.add(new Course("CS102", "OOP", 4, "Prof B", 3));
+        courses.add(new Course("CS103", "DBMS", 2, "Prof C", 3));
+    }
+
+    // GLOBAL ACCESS METHOD
+    public static CourseService getInstance() {
+        if (instance == null) {
+            instance = new CourseService();
+        }
+        return instance;
     }
 
     public void viewCourses() {
