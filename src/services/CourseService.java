@@ -54,4 +54,26 @@ public ArrayList<Course> getCoursesByProfessor(String profName) {
 
     return result;
 }
+// ADD COURSE
+public void addCourse(Course c) {
+    courses.add(c);
+}
+
+// DELETE COURSE
+public boolean deleteCourse(String code) {
+    Course toRemove = null;
+
+    for (Course c : courses) {
+        if (c.getCourseCode().equalsIgnoreCase(code)) {
+            toRemove = c;
+            break;
+        }
+    }
+
+    if (toRemove != null) {
+        courses.remove(toRemove);
+        return true;
+    }
+    return false;
+}
 }
