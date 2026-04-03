@@ -42,4 +42,16 @@ public class CourseService {
         }
         return null;
     }
+    // Get courses by professor
+public ArrayList<Course> getCoursesByProfessor(String profName) {
+    ArrayList<Course> result = new ArrayList<>();
+
+    for (Course c : courses) {
+        if (c.getProfessor().equalsIgnoreCase(profName)) {
+            result.add(c);
+        }
+    }
+
+    return result;
+}
 }
