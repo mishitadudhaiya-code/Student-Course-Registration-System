@@ -22,7 +22,7 @@ public class MainApp {
 
             if (choice == 1) {
 
-                System.out.print("Enter role (student/professor/admin): ");
+                System.out.print("Enter role (student/professor/admin/ta): ");
                 String role = sc.nextLine();
 
                 System.out.print("Enter email: ");
