@@ -33,4 +33,18 @@ public class FeedbackService {
             f.display();
         }
     }
+    public void viewFeedbackByCourse(String courseCode) {
+        boolean found = false;
+
+        for (Feedback<?> f : feedbacks) {
+            if (f.getCourseCode().equalsIgnoreCase(courseCode)) {
+                f.display();
+                found = true;
+            }
+        }
+
+        if (!found) {
+            System.out.println("No feedback for this course.");
+        }
+    }
 }

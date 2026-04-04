@@ -1,6 +1,8 @@
 package users;
 
 import java.util.Scanner;
+
+import exceptions.InvalidGradeException;
 import model.Complaint;
 import model.Course;
 import services.ComplaintService;
@@ -99,24 +101,32 @@ public class Administrator extends User {
 
                 Course c = cs.getCourseByCode(code);
 
-                if (c != null) {
+                if (c == null) {
+                    System.out.println("Course not found!");
+                    continue;
+                }
 
-                    System.out.print("Enter student ID: ");
-                    String sid = sc.next();
+                System.out.print("Enter student ID: ");
+                String sid = sc.next();
 
-                    System.out.print("Enter grade (A/B/C/D/F): ");
-                    String grade = sc.next();
+                System.out.print("Enter grade (A/B/C/D/F): ");
+                String grade = sc.next();
+
+                try {
+                    if (!grade.matches("[ABCDF]")) {
+                        throw new InvalidGradeException("Invalid grade!");
+                    }
 
                     boolean success = c.assignGrade(sid, grade);
 
                     if (success) {
-                        System.out.println("Grade assigned!");
+                        System.out.println("Grade assigned successfully!");
                     } else {
-                        System.out.println("Student not found in this course!");
+                        System.out.println("Student not found in this course.");
                     }
 
-                } else {
-                    System.out.println("Course not found");
+                } catch (InvalidGradeException e) {
+                    System.out.println(e.getMessage());
                 }
             }
 

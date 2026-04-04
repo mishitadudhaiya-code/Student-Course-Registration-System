@@ -1,6 +1,8 @@
 package main;
 
 import java.util.Scanner;
+
+import exceptions.InvalidLoginException;
 import services.AuthService;
 import users.User;
 
@@ -31,13 +33,20 @@ public class MainApp {
                 System.out.print("Enter password: ");
                 String password = sc.nextLine();
 
-                User user = auth.login(role, email, password);
+                while (true) {
+                try {
+                    User user = auth.login(role, email, password);
 
-                if (user != null) {
-                    user.showMenu(); // after exit → comes back here
-                } else {
-                    System.out.println("Invalid login");
+                    if (user != null) {
+                        user.showMenu();
+                        break;
+                    }
+
+                } catch (InvalidLoginException e) {
+                    System.out.println("Error: " + e.getMessage());
+                    break;
                 }
+            }
 
             } else {
                 System.out.println("Exiting system...");

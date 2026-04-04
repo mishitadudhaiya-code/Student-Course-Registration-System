@@ -32,30 +32,30 @@ public class Course {
     // Add student
     public boolean addStudent(String studentId) {
 
-    if (students.contains(studentId)) {
-        System.out.println("Student already registered!");
-        return false;
-    }
+        if (students.contains(studentId)) {
+            return false; // already registered
+        }
 
-    if (students.size() >= maxStudents) {
-        return false;
-    }
+        if (students.size() >= maxStudents) {
+            return false;
+        }
 
-    students.add(studentId);
-    grades.add(null);
-    return true;
-}
+        students.add(studentId);
+        grades.add(null);
+
+        return true;
+    }
 
     // Assign grade
     public boolean assignGrade(String studentId, String grade) {
-    for (int i = 0; i < students.size(); i++) {
-        if (students.get(i).equals(studentId)) {
-            grades.set(i, grade);
-            return true;
+        for (int i = 0; i < students.size(); i++) {
+            if (students.get(i).equals(studentId)) {
+                grades.set(i, grade);
+                return true;
+            }
         }
+        return false;
     }
-    return false;
-}
 
     // Get grade
     public String getGrade(String studentId) {
