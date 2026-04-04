@@ -14,6 +14,7 @@ public class Course {
     private ArrayList<String> grades;
     private String day;
     private String time;
+    
 
     public Course(String courseCode, String title, int credits, String professor, int maxStudents, String day, String time) {
         this.courseCode = courseCode;

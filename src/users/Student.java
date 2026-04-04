@@ -1,14 +1,17 @@
 package users;
 
 import model.Course;
+import model.Feedback;
 import services.CourseService;
+import services.FeedbackService;
 import services.ComplaintService;
 import model.Complaint;
+
 
 import java.util.Scanner;
 
 public class Student extends User {
-
+    
     private String studentId;
 
     public Student(String email, String password, String studentId) {
@@ -19,7 +22,36 @@ public class Student extends User {
     public String getStudentId() {
         return studentId;
     }
+    private void viewSchedule() {
+        CourseService cs = CourseService.getInstance();
 
+        System.out.println("\n--- WEEKLY SCHEDULE ---");
+
+        String[] days = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday"};
+
+        boolean foundAny = false;
+
+        for (String day : days) {
+            boolean found = false;
+
+            for (Course c : cs.getAllCourses()) {
+                if (c.getStudents().contains(studentId) && c.getDay().equalsIgnoreCase(day)) {
+
+                    if (!found) {
+                        System.out.println("\n" + day + ":");
+                        found = true;
+                    }
+
+                    System.out.println("  " + c.getCourseCode() + " - " + c.getTime());
+                    foundAny = true;
+                }
+            }
+        }
+
+        if (!foundAny) {
+            System.out.println("No courses registered.");
+        }
+    }
     // VIEW REGISTERED COURSES
     private void viewRegisteredCourses() {
         CourseService cs = CourseService.getInstance();
@@ -102,7 +134,9 @@ public class Student extends User {
             System.out.println("5. Submit Complaint");
             System.out.println("6. View My Complaints");
             System.out.println("7. View Academic Progress");
-            System.out.println("8. Exit");
+            System.out.println("8. View Schedule");
+            System.out.println("9. Give Feedback");
+            System.out.println("10. Exit");
 
             int choice = sc.nextInt();
 
@@ -187,6 +221,23 @@ public class Student extends User {
             else if (choice == 7) {
                 double sgpa = calculateSGPA();
                 System.out.println("\nYour SGPA: " + sgpa + "\n");
+            }
+            else if (choice == 8) {
+                viewSchedule();
+            }
+            else if (choice == 9) {
+                System.out.print("Enter course code: ");
+                String code = sc.next();
+
+                sc.nextLine(); // clear buffer
+
+                System.out.print("Enter feedback: ");
+                String fb = sc.nextLine();
+
+                Feedback<String> f = new Feedback<>(studentId, code, fb);
+                FeedbackService.getInstance().addFeedback(f);
+
+                System.out.println("Feedback submitted!");
             }
 
             else {

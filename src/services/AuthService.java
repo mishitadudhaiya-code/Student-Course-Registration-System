@@ -27,6 +27,9 @@ public class AuthService {
         else if (role.equalsIgnoreCase("professor")) {
             return new Professor(email, password);
         }
+        else if (role.equalsIgnoreCase("ta")) {
+            return new TA(email, password);
+        }
         else if (role.equalsIgnoreCase("admin")) {
             return new Administrator(email, password);
         }
