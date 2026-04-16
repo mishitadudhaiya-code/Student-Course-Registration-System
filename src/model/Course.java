@@ -14,9 +14,10 @@ public class Course {
     private ArrayList<String> grades;
     private String day;
     private String time;
+    private String prerequisite; // course code
     
 
-    public Course(String courseCode, String title, int credits, String professor, int maxStudents, String day, String time) {
+    public Course(String courseCode, String title, int credits, String professor, int maxStudents, String prerequisite) {
         this.courseCode = courseCode;
         this.title = title;
         this.credits = credits;
@@ -24,27 +25,31 @@ public class Course {
         this.maxStudents = maxStudents;
         this.day = day;
         this.time = time;
+        this.prerequisite = prerequisite;
 
         students = new ArrayList<>();
         grades = new ArrayList<>();
+    }
+    public String getPrerequisite() {
+        return prerequisite;
     }
 
     // Add student
     public boolean addStudent(String studentId) {
 
-        if (students.contains(studentId)) {
-            return false; // already registered
-        }
-
-        if (students.size() >= maxStudents) {
-            return false;
-        }
-
-        students.add(studentId);
-        grades.add(null);
-
-        return true;
+    if (students.contains(studentId)) {
+        return false;
     }
+
+    if (students.size() >= maxStudents) {
+        return false;
+    }
+
+    students.add(studentId);
+    grades.add(null);
+
+    return true;
+}
 
     // Assign grade
     public boolean assignGrade(String studentId, String grade) {
@@ -88,7 +93,9 @@ public class Course {
     }
 
     public void displayCourse() {
-        System.out.println(courseCode + " - " + title + " (" + credits + " credits) | Prof: " + professor);
+    System.out.println(courseCode + " - " + title +
+            " (" + credits + " credits) | Prof: " + professor +
+            " | Prerequisite: " + (prerequisite == null ? "None" : prerequisite));
     }
     public String getDay() {
         return day;
@@ -97,4 +104,5 @@ public class Course {
     public String getTime() {
         return time;
     }
+    
 }

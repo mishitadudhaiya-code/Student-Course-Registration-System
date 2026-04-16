@@ -1,5 +1,6 @@
 package services;
 
+import exceptions.InvalidLoginException;
 import users.*;
 
 public class AuthService {
@@ -9,10 +10,10 @@ public class AuthService {
         if (role.equalsIgnoreCase("student")) {
 
     // Extract ID from email
+    
     if (!email.endsWith("@university.com")) {
-        System.out.println("Invalid email format!");
-        return null;
-    }
+    throw new InvalidLoginException("Invalid email format!");
+}
 
     String studentId = email.split("@")[0];
 
