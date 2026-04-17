@@ -1,8 +1,7 @@
 package main;
 
-import java.util.Scanner;
-
 import exceptions.InvalidLoginException;
+import java.util.Scanner;
 import services.AuthService;
 import users.User;
 
@@ -42,7 +41,8 @@ public class MainApp {
                         break;
                     }
 
-                } catch (InvalidLoginException e) {
+                }
+                catch(InvalidLoginException e) {
                     System.out.println("Error: " + e.getMessage());
                     break;
                 }

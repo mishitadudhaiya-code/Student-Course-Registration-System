@@ -5,36 +5,29 @@ import users.*;
 
 public class AuthService {
 
-    public User login(String role, String email, String password) {
+        public User login(String role, String email, String password) throws InvalidLoginException {
 
+        // STUDENT VALIDATION
         if (role.equalsIgnoreCase("student")) {
 
-    // Extract ID from email
-    
-    if (!email.endsWith("@university.com")) {
-    throw new InvalidLoginException("Invalid email format!");
-}
+            if (!email.endsWith("@university.com")) {
+                throw new InvalidLoginException("Invalid email format!");
+            }
 
-    String studentId = email.split("@")[0];
+            String studentId = email.split("@")[0];
 
-    // Optional: validate pattern
-    if (!studentId.matches("u\\d{2}[a-z]{2}\\d{3}")) {
-        System.out.println("Invalid Student ID format!");
-        return null;
-    }
-
-    return new Student(email, password, studentId);
-}
-        else if (role.equalsIgnoreCase("professor")) {
-            return new Professor(email, password);
-        }
-        else if (role.equalsIgnoreCase("ta")) {
-            return new TA(email, password);
-        }
-        else if (role.equalsIgnoreCase("admin")) {
-            return new Administrator(email, password);
+            if (!studentId.matches("u\\d{2}[a-z]{2}\\d{3}")) {
+                throw new InvalidLoginException("Invalid Student ID format!");
+            }
         }
 
-        return null;
+        // 🔥 ALL OBJECT CREATION THROUGH FACTORY
+        User user = UserFactory.createUser(role, email, password);
+
+        if (user == null) {
+            throw new InvalidLoginException("Invalid role!");
+        }
+
+        return user;
     }
 }

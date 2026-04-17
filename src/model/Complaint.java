@@ -24,8 +24,12 @@ public class Complaint {
     }
 
     public void setStatus(String status) {
+    if (status.equalsIgnoreCase("Pending") || status.equalsIgnoreCase("Resolved")) {
         this.status = status;
+    } else {
+        System.out.println("Invalid status! Keeping previous value.");
     }
+}
 
     public void display() {
         System.out.println("Student: " + studentEmail);

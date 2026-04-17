@@ -7,51 +7,54 @@ public class Course {
     private String courseCode;
     private String title;
     private int credits;
-    private String professor;
+
+    // 🔥 UPDATED: store BOTH
+    private String professorEmail;
+    private String professorName;
+
     private int maxStudents;
 
     private ArrayList<String> students;
     private ArrayList<String> grades;
+
     private String day;
     private String time;
-    private String prerequisite; // course code
-    
+    private String prerequisite;
 
-    public Course(String courseCode, String title, int credits, String professor, int maxStudents, String prerequisite) {
+    // ✅ FINAL CONSTRUCTOR
+    public Course(String courseCode, String title, int credits,
+                  String professorEmail, String professorName,
+                  int maxStudents, String prerequisite,
+                  String day, String time) {
+
         this.courseCode = courseCode;
         this.title = title;
         this.credits = credits;
-        this.professor = professor;
+        this.professorEmail = professorEmail;
+        this.professorName = professorName;
         this.maxStudents = maxStudents;
+        this.prerequisite = prerequisite;
         this.day = day;
         this.time = time;
-        this.prerequisite = prerequisite;
 
         students = new ArrayList<>();
         grades = new ArrayList<>();
     }
-    public String getPrerequisite() {
-        return prerequisite;
-    }
 
-    // Add student
+    // ✅ ADD STUDENT
     public boolean addStudent(String studentId) {
 
-    if (students.contains(studentId)) {
-        return false;
+        if (students.contains(studentId)) return false;
+
+        if (students.size() >= maxStudents) return false;
+
+        students.add(studentId);
+        grades.add(null);
+
+        return true;
     }
 
-    if (students.size() >= maxStudents) {
-        return false;
-    }
-
-    students.add(studentId);
-    grades.add(null);
-
-    return true;
-}
-
-    // Assign grade
+    // ✅ ASSIGN GRADE
     public boolean assignGrade(String studentId, String grade) {
         for (int i = 0; i < students.size(); i++) {
             if (students.get(i).equals(studentId)) {
@@ -62,7 +65,7 @@ public class Course {
         return false;
     }
 
-    // Get grade
+    // ✅ GET GRADE
     public String getGrade(String studentId) {
         for (int i = 0; i < students.size(); i++) {
             if (students.get(i).equals(studentId)) {
@@ -72,6 +75,8 @@ public class Course {
         return null;
     }
 
+    // ✅ GETTERS
+
     public String getCourseCode() {
         return courseCode;
     }
@@ -80,23 +85,18 @@ public class Course {
         return credits;
     }
 
-    public String getProfessor() {
-        return professor;
+    public String getProfessorEmail() {
+        return professorEmail;
     }
 
-    public void setCredits(int credits) {
-        this.credits = credits;
+    public String getProfessorName() {
+        return professorName;
     }
 
-    public ArrayList<String> getStudents() {
-        return students;
+    public String getPrerequisite() {
+        return prerequisite;
     }
 
-    public void displayCourse() {
-    System.out.println(courseCode + " - " + title +
-            " (" + credits + " credits) | Prof: " + professor +
-            " | Prerequisite: " + (prerequisite == null ? "None" : prerequisite));
-    }
     public String getDay() {
         return day;
     }
@@ -104,5 +104,32 @@ public class Course {
     public String getTime() {
         return time;
     }
-    
+
+    public ArrayList<String> getStudents() {
+        return students;
+    }
+
+    // ✅ SETTERS
+
+    public void setProfessor(String email, String name) {
+        this.professorEmail = email;
+        this.professorName = name;
+    }
+
+    public void setCredits(int credits) {
+        this.credits = credits;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    // ✅ DISPLAY (IMPORTANT FOR OUTPUT)
+    public void displayCourse() {
+        System.out.println(courseCode + " - " + title +
+                " (" + credits + " credits) | Prof: " + professorName +
+                " | Day: " + day +
+                " | Time: " + time +
+                " | Prerequisite: " + (prerequisite == null ? "None" : prerequisite));
+    }
 }

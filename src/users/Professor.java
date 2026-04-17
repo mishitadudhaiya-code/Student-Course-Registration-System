@@ -1,9 +1,10 @@
 package users;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 import model.Course;
+import model.Feedback;
 import services.CourseService;
+import services.FeedbackService;
 
 public class Professor extends User {
 
@@ -13,63 +14,119 @@ public class Professor extends User {
 
     @Override
     public void showMenu() {
+
         Scanner sc = new Scanner(System.in);
         CourseService cs = CourseService.getInstance();
 
-        System.out.print("Enter your name: ");
-        String profName = sc.nextLine();
-
         while (true) {
-            System.out.println("\n1. View My Courses");
-            System.out.println("2. Update Course Credits");
+
+            System.out.println("\n--- PROFESSOR MENU ---");
+            System.out.println("1. View My Courses");
+            System.out.println("2. Update Course Details");
             System.out.println("3. View Enrolled Students");
-            System.out.println("4. Exit");
+            System.out.println("4. View Feedback");
+            System.out.println("5. Exit");
 
             int choice = sc.nextInt();
+            sc.nextLine();
 
+            // 1. VIEW MY COURSES
             if (choice == 1) {
-                ArrayList<Course> myCourses = cs.getCoursesByProfessor(profName);
 
-                for (Course c : myCourses) {
-                    c.displayCourse();
-                }
-            }
-
-            else if (choice == 2) {
-                System.out.print("Enter course code: ");
-                String code = sc.next();
-
-                Course c = cs.getCourseByCode(code);
-
-                if (c != null && c.getProfessor().equalsIgnoreCase(profName)) {
-                    System.out.print("Enter new credits (2 or 4): ");
-                    int newCredits = sc.nextInt();
-                    c.setCredits(newCredits);
-                    System.out.println("Updated successfully!");
-                } else {
-                    System.out.println("Invalid course or not assigned to you.");
-                }
-            }
-
-            else if (choice == 3) {
-                System.out.print("Enter course code: ");
-                String code = sc.next();
-
-                Course c = cs.getCourseByCode(code);
-
-                if (c != null && c.getProfessor().equalsIgnoreCase(profName)) {
-                    System.out.println("Enrolled Students:");
-                    for (String s : c.getStudents()) {
-                        System.out.println(s);
+                for (Course c : cs.getAllCourses()) {
+                    if (c.getProfessorEmail().equalsIgnoreCase(getEmail())) {
+                        c.displayCourse();
                     }
-                } else {
-                    System.out.println("Invalid course.");
                 }
             }
 
-            else {
+            // 2. UPDATE COURSE DETAILS
+            else if (choice == 2) {
+
+                System.out.print("Enter course code: ");
+                String code = sc.nextLine();
+
+                Course c = cs.getCourseByCode(code);
+
+                if (c != null && c.getProfessorEmail().equalsIgnoreCase(getEmail())) {
+
+                    System.out.println("1. Update Credits");
+                    System.out.println("2. Update Time");
+
+                    int opt = sc.nextInt();
+                    sc.nextLine();
+
+                    if (opt == 1) {
+                        System.out.print("Enter new credits: ");
+                        int cr = sc.nextInt();
+                        c.setCredits(cr);
+                        System.out.println("Updated!");
+                    }
+
+                    else if (opt == 2) {
+                        System.out.print("Enter new time: ");
+                        String t = sc.nextLine();
+                        c.setTime(t);
+                        System.out.println("Updated!");
+                    }
+
+                } else {
+                    System.out.println("Not authorized!");
+                }
+            }
+
+            // 3. VIEW ENROLLED STUDENTS
+            else if (choice == 3) {
+
+                System.out.print("Enter course code: ");
+                String code = sc.nextLine();
+
+                Course c = cs.getCourseByCode(code);
+
+                if (c != null && c.getProfessorEmail().equalsIgnoreCase(getEmail())) {
+
+                    for (String s : c.getStudents()) {
+                        System.out.println("Student ID: " + s);
+                    }
+
+                } else {
+                    System.out.println("Not authorized!");
+                }
+            }
+
+            // 4. VIEW FEEDBACK
+            else if (choice == 4) {
+
+                boolean found = false;
+
+                for (Course c : cs.getAllCourses()) {
+
+                    if (c.getProfessorEmail().equalsIgnoreCase(getEmail())) {
+
+                        System.out.println("\nCourse: " + c.getCourseCode());
+
+                        for (Feedback f : FeedbackService.getInstance().getAllFeedback()) {
+
+                            if (f.getCourseCode().equalsIgnoreCase(c.getCourseCode())) {
+
+                                System.out.println("Student: " + f.getStudentId());
+                                System.out.println("Feedback: " + f.getFeedback());
+                                System.out.println("-------------------");
+
+                                found = true;
+                            }
+                        }
+                    }
+                }
+
+                if (!found) {
+                    System.out.println("No feedback available.");
+                }
+            }
+
+            // EXIT
+            else if (choice == 5) {
                 break;
-                
             }
         }
     }
